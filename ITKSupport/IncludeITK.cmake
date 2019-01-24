@@ -150,6 +150,8 @@ set(DREAM3D_CORE_ITK_MODULES
     ITKOptimizers
     #Other
     ITKReview
+    #Modules
+    ITKIOMRC
     
   )
 
