@@ -40,8 +40,8 @@ function(AddItkCopyInstallRules)
     if(NOT FOUND_${itk_LIBNAME})
       set(FOUND_${itk_LIBNAME} TRUE PARENT_SCOPE)
 
-      string(REGEX MATCH "^(ITK|itk|SCIFIO)" IsItkLib ${itk_LIBNAME})
-   
+      string(REGEX MATCH "^(ITK|itk|SCIFIO|Montage)" IsItkLib ${itk_LIBNAME})
+
       if(NOT "${IsItkLib}" STREQUAL "")
         #message(STATUS "    ${itk_LIBNAME}: ${FOUND_${itk_LIBNAME}}  IsItkLib: ${IsItkLib}")
         set(itk_LIBVAR ${itk_LIBNAME})
@@ -74,7 +74,7 @@ function(AddItkCopyInstallRules)
             #message(STATUS "  DllLibPath:(${IsDLL}) ${DllLibPath}")
             if(EXISTS "${DllLibPath}")
               if(NOT "${DllLibPath}" STREQUAL "LibPath-NOTFOUND" AND NOT "${IsDLL}" STREQUAL "")
-                
+
                 if(NOT TARGET ZZ_${itk_LIBVAR}_DLL_${UpperBType}-Copy)
                   # message(STATUS "  Creating Copy and Install Rule for ${DllLibPath}")
                   add_custom_target(ZZ_${itk_LIBVAR}_DLL_${UpperBType}-Copy ALL
@@ -152,7 +152,7 @@ set(DREAM3D_CORE_ITK_MODULES
     ITKReview
     #Modules
     ITKIOMRC
-    
+
   )
 
 get_property(ADDITIONAL_ITK_MODULES GLOBAL PROPERTY ADDITIONAL_ITK_MODULES)
@@ -216,10 +216,10 @@ if(WIN32 OR APPLE)
     if(APPLE)
       set(INSTALL_DIR_PREFIX "${DREAM3D_PACKAGE_DEST_PREFIX}lib")
     endif()
-    install(DIRECTORY ${ITK_LIB_DIRECTORY}/${ITK_FOLDER} 
+    install(DIRECTORY ${ITK_LIB_DIRECTORY}/${ITK_FOLDER}
             DESTINATION ${INSTALL_DIR_PREFIX}
             COMPONENT Applications)
-  
+
   endforeach()
 endif()
 
