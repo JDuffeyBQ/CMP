@@ -560,6 +560,24 @@ macro(CMP_AddQt5Support Qt5Components NeedQtWebEngine ProjectBinaryDir VarPrefix
     endif()
   endif()
 
+  list(FIND Qt5_COMPONENTS "Network" NeedsNetwork)
+  if(NeedsNetwork GREATER -1)
+    AddQt5Plugins(PLUGIN_NAMES QGenericEnginePlugin
+                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                  # PLUGIN_SUFFIX Plugin
+                  PLUGIN_TYPE bearer)
+  endif()
+
+  list(FIND Qt5_COMPONENTS "Sql" NeedsSql)
+  if(NeedsSql GREATER -1)
+    AddQt5Plugins(PLUGIN_NAMES QODBCDriverPlugin
+                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                  # PLUGIN_SUFFIX Plugin
+                  PLUGIN_TYPE sqldrivers)
+  endif()
+
   #-----------------------------------------------------------------------------------
   # Copy over the proper QWebEngine Components
   if("${NeedQtWebEngine}" STREQUAL "ON" OR "${NeedQtWebEngine}" STREQUAL "TRUE")
