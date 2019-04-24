@@ -139,14 +139,15 @@ inline std::string tifDateTime() {
   return ss.str();
 }
 
-namespace MXA {
+namespace SIMPL_Gen
+{
 
 /**
  * @brief Generates a String suitable for using as a version string for
  * applications.
  * @return
  */
-inline std::string MXAVersionString()
+inline std::string SIMPL_GenVersionString()
 {
   TimeType long_time = 0;
   TimeFunc(&long_time);
@@ -193,12 +194,10 @@ inline unsigned long long int getMilliSeconds()
 #endif
 }
 
-
-} // end Namespace MXA
-
+} // end Namespace SIMPL_Gen
 
 int main(int argc, char **argv) {
-  std::cout << MXA::MXAVersionString();
+  std::cout << SIMPL_Gen::SIMPL_GenVersionString();
   return 0;
 }
 

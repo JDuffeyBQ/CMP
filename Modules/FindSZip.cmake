@@ -5,7 +5,7 @@
 #  SZLIB_LIBRARIES   - List of libraries when using szlib.
 #  SZLIB_FOUND       - True if szlib found.
 
-MESSAGE(STATUS "MXAFindSZip.cmake: This File is Unfinished. Use at your own risk")
+MESSAGE(STATUS "FindSZip.cmake: This File is Unfinished. Use at your own risk")
 IF (SZLIB_INCLUDE_DIR)
   # Already in cache, be silent
   SET(SZLIB_FIND_QUIETLY TRUE)
