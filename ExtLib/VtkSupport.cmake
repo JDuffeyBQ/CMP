@@ -169,6 +169,13 @@ function(CMP_FindVtkComponents)
     AddVtkCopyInstallRules(LIBS ${Z_COMPONENTS})
   endif()
 
+  #------------------------------------------------------------------------------
+  # Make sure we have Vtk installed and available
+  if(VTK_FOUND)
+      get_property(SIMPLibSearchDirs GLOBAL PROPERTY SIMPLibSearchDirs)
+      file(APPEND "${SIMPLibSearchDirs}" "${VTK_RUNTIME_DIRS};")
+  endif()
+
 endfunction()
 
 # # --------------------------------------------------------------------
