@@ -3,10 +3,7 @@
  * configuration of your project. If you need to make changes, edit the
  * original file NOT THIS FILE.
  * --------------------------------------------------------------------------*/
-
-
-#ifndef _@VERSION_INCLUDE_GUARD@_version_h_
-#define _@VERSION_INCLUDE_GUARD@_version_h_
+#pragma once
 
 
 #include <QtCore/QString>
@@ -34,6 +31,7 @@ namespace @VERSION_GEN_NAMESPACE@
       static @VERSION_GEN_NAMESPACE_EXPORT@ QString Revision ();
       static @VERSION_GEN_NAMESPACE_EXPORT@ QString PackageComplete ();
       static @VERSION_GEN_NAMESPACE_EXPORT@ QString BuildDate();
+      static @VERSION_GEN_NAMESPACE_EXPORT@ QString GitHash();
 
     protected:
       Version() = default;
@@ -41,4 +39,3 @@ namespace @VERSION_GEN_NAMESPACE@
   };
 }
 
-#endif /* _@VERSION_INCLUDE_GUARD@_version_h_ */

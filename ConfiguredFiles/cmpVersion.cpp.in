@@ -12,6 +12,7 @@
 #define @VERSION_GEN_NAME@_VER_MINOR        "@VERSION_GEN_VER_MINOR@"
 #define @VERSION_GEN_NAME@_VER_PATCH        "@VERSION_GEN_VER_PATCH@"
 #define @VERSION_GEN_NAME@_VER_REVISION     "@VERSION_GEN_VER_REVISION@"
+#define @VERSION_GEN_NAME@_GIT_HASH         "@GVS_GIT_HASH@"
 
 #include "@VERSION_GEN_HEADER_FILE_NAME@"
 
@@ -78,4 +79,12 @@ QString @VERSION_GEN_NAMESPACE@::Version::PackageComplete()
 QString @VERSION_GEN_NAMESPACE@::Version::BuildDate()
 { 
   return QString("@VERSION_BUILD_DATE@");
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+QString @VERSION_GEN_NAMESPACE@::Version::GitHash()
+{ 
+  return QString("@GVS_GIT_HASH@");
 }
