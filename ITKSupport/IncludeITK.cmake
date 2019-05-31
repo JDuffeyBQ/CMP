@@ -139,9 +139,6 @@ set(DREAM3D_CORE_ITK_MODULES
 
     #Group Registration
     ITKRegistrationCommon
-	ITKOptimizersv4
-	ITKMetricsv4
-	ITKRegistrationMethodsv4
 
     #Group Segmentation
     #ITKVoronoi
@@ -155,8 +152,6 @@ set(DREAM3D_CORE_ITK_MODULES
     ITKReview
     #Modules
     ITKIOMRC
-	ITKIOTransformBase
-
   )
 
 get_property(ADDITIONAL_ITK_MODULES GLOBAL PROPERTY ADDITIONAL_ITK_MODULES)
