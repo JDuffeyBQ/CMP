@@ -796,8 +796,16 @@ ENDmacro()
 function(cmpGenerateVersionString)
   set(options)
   set(oneValueArgs GENERATED_HEADER_FILE_PATH GENERATED_SOURCE_FILE_PATH
-                   NAMESPACE PROJECT_NAME EXPORT_MACRO )
+                   NAMESPACE PROJECT_NAME EXPORT_MACRO STRING_CLASS STRING_INCLUDE)
   cmake_parse_arguments(GVS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+  if(NOT DEFINED GVS_STRING_CLASS)
+    set(GVS_STRING_CLASS "QString")
+  endif()
+
+  if(NOT DEFINED GVS_STRING_INCLUDE)
+    set(GVS_STRING_INCLUDE "<QtCore/QString>")
+  endif()
 
   if(0)
     message(STATUS "--------------------------------------------")
@@ -965,8 +973,16 @@ endfunction()
 function(cmpGitRevisionString)
   set(options)
   set(oneValueArgs GENERATED_HEADER_FILE_PATH GENERATED_SOURCE_FILE_PATH
-                   NAMESPACE PROJECT_NAME EXPORT_MACRO VERSION_MACRO_PATH)
+                   NAMESPACE PROJECT_NAME EXPORT_MACRO VERSION_MACRO_PATH STRING_CLASS STRING_INCLUDE)
   cmake_parse_arguments(GVS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+  if(NOT DEFINED GVS_STRING_CLASS)
+    set(GVS_STRING_CLASS "QString")
+  endif()
+
+  if(NOT DEFINED GVS_STRING_INCLUDE)
+    set(GVS_STRING_INCLUDE "<QtCore/QString>")
+  endif()
 
   if(0)
     message(STATUS "--------------------------------------------")
@@ -1067,8 +1083,16 @@ endfunction()
 function(cmpRevisionString)
   set(options) 
   set(oneValueArgs GENERATED_HEADER_FILE_PATH GENERATED_SOURCE_FILE_PATH GENERATED_MACRO_HEADER_PATH
-                   NAMESPACE PROJECT_NAME EXPORT_MACRO )
+                   NAMESPACE PROJECT_NAME EXPORT_MACRO STRING_CLASS STRING_INCLUDE )
   cmake_parse_arguments(GVS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+  if(NOT DEFINED GVS_STRING_CLASS)
+    set(GVS_STRING_CLASS "QString")
+  endif()
+
+  if(NOT DEFINED GVS_STRING_INCLUDE)
+    set(GVS_STRING_INCLUDE "<QtCore/QString>")
+  endif()
 
   # Generate our Build date in the Form of YYYY/MM/DD
   cmpGenerateBuildDate(PROJECT_NAME ${GVS_PROJECT_NAME})
@@ -1079,14 +1103,20 @@ function(cmpRevisionString)
                           VERSION_MACRO_PATH "${GVS_GENERATED_MACRO_HEADER_PATH}"
                           NAMESPACE "${GVS_NAMESPACE}"
                           PROJECT_NAME "${GVS_PROJECT_NAME}"
-                          EXPORT_MACRO "${GVS_EXPORT_MACRO}")
+                          EXPORT_MACRO "${GVS_EXPORT_MACRO}"
+                          STRING_CLASS "${GVS_STRING_CLASS}"
+                          STRING_INCLUDE "${GVS_STRING_INCLUDE}"                  
+  )
   else()
     cmpGenerateVersionString( GENERATED_HEADER_FILE_PATH "${GVS_GENERATED_HEADER_FILE_PATH}"
                               GENERATED_SOURCE_FILE_PATH "${GVS_GENERATED_SOURCE_FILE_PATH}"
                               VERSION_MACRO_PATH "${GVS_GENERATED_MACRO_HEADER_PATH}"
                               NAMESPACE "${GVS_NAMESPACE}"
                               PROJECT_NAME "${GVS_PROJECT_NAME}"
-                              EXPORT_MACRO "${GVS_EXPORT_MACRO}")
+                              EXPORT_MACRO "${GVS_EXPORT_MACRO}"
+                              STRING_CLASS "${GVS_STRING_CLASS}"
+                              STRING_INCLUDE "${GVS_STRING_INCLUDE}"
+    )
   endif()
 
   # We have to "set" our variable into the parent scope. What a pain. Pass by reference would be really nice about now

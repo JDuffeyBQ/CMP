@@ -4,6 +4,8 @@
  * original file NOT THIS FILE.
  * --------------------------------------------------------------------------*/
 
+#include "@VERSION_GEN_HEADER_FILE_NAME@"
+
 /* Definition of version number for @VERSION_GEN_NAME@ */
 #define @VERSION_GEN_NAME@_PACKAGE_NAME     "@PROJECT_PREFIX@"
 #define @VERSION_GEN_NAME@_PACKAGE_COMPLETE "@PROJECT_PREFIX@ Version @VERSION_GEN_VER_MAJOR@.@VERSION_GEN_VER_MINOR@.@VERSION_GEN_VER_PATCH@.@VERSION_GEN_VER_REVISION@"
@@ -14,77 +16,74 @@
 #define @VERSION_GEN_NAME@_VER_REVISION     "@VERSION_GEN_VER_REVISION@"
 #define @VERSION_GEN_NAME@_GIT_HASH         "@GVS_GIT_HASH@"
 
-#include "@VERSION_GEN_HEADER_FILE_NAME@"
-
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::Complete()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::Complete()
 { 
-  return QString("@VERSION_GEN_VER_MAJOR@.@VERSION_GEN_VER_MINOR@.@VERSION_GEN_VER_PATCH@.@VERSION_GEN_VER_REVISION@");
+  return @GVS_STRING_CLASS@("@VERSION_GEN_VER_MAJOR@.@VERSION_GEN_VER_MINOR@.@VERSION_GEN_VER_PATCH@.@VERSION_GEN_VER_REVISION@");
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::Major()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::Major()
 { 
-  return QString("@VERSION_GEN_VER_MAJOR@");
+  return @GVS_STRING_CLASS@("@VERSION_GEN_VER_MAJOR@");
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::Minor()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::Minor()
 { 
-  return QString("@VERSION_GEN_VER_MINOR@");
+  return @GVS_STRING_CLASS@("@VERSION_GEN_VER_MINOR@");
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::Patch()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::Patch()
 { 
-  return QString("@VERSION_GEN_VER_PATCH@");
+  return @GVS_STRING_CLASS@("@VERSION_GEN_VER_PATCH@");
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::Revision()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::Revision()
 { 
-  return QString("@VERSION_GEN_VER_REVISION@");
+  return @GVS_STRING_CLASS@("@VERSION_GEN_VER_REVISION@");
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::Package()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::Package()
 { 
-  return QString("@VERSION_GEN_VER_MAJOR@.@VERSION_GEN_VER_MINOR@.@VERSION_GEN_VER_PATCH@");
-}
-
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::PackageComplete()
-{ 
-  return QString("@PROJECT_PREFIX@ Version @VERSION_GEN_VER_MAJOR@.@VERSION_GEN_VER_MINOR@.@VERSION_GEN_VER_PATCH@.@VERSION_GEN_VER_REVISION@");
+  return @GVS_STRING_CLASS@("@VERSION_GEN_VER_MAJOR@.@VERSION_GEN_VER_MINOR@.@VERSION_GEN_VER_PATCH@");
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::BuildDate()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::PackageComplete()
 { 
-  return QString("@VERSION_BUILD_DATE@");
+  return @GVS_STRING_CLASS@("@PROJECT_PREFIX@ Version @VERSION_GEN_VER_MAJOR@.@VERSION_GEN_VER_MINOR@.@VERSION_GEN_VER_PATCH@.@VERSION_GEN_VER_REVISION@");
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString @VERSION_GEN_NAMESPACE@::Version::GitHash()
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::BuildDate()
 { 
-  return QString("@GVS_GIT_HASH@");
+  return @GVS_STRING_CLASS@("@VERSION_BUILD_DATE@");
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+@GVS_STRING_CLASS@ @VERSION_GEN_NAMESPACE@::Version::GitHash()
+{ 
+  return @GVS_STRING_CLASS@("@GVS_GIT_HASH@");
 }
