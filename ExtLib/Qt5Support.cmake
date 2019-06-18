@@ -449,9 +449,15 @@ macro(CMP_AddQt5Support Qt5Components NeedQtWebEngine ProjectBinaryDir VarPrefix
   # This is really just needed for Windows
   CopyQt5RunTimeLibraries(LIBRARIES ${Qt5_COMPONENTS} PREFIX Qt5)
 
-  # This is pretty much needed on all the platforms.
-  AddQt5LibraryInstallRule(LIBRARIES ${Qt5_COMPONENTS})
+  if(NOT DEFINED CMP_QT5_ENABLE_INSTALL)
+    set(CMP_QT5_ENABLE_INSTALL ON)
+  endif()
 
+  if(CMP_QT5_ENABLE_INSTALL)
+    # This is pretty much needed on all the platforms.
+    AddQt5LibraryInstallRule(LIBRARIES ${Qt5_COMPONENTS})
+  endif()
+  
   #----------------------------------------------------------------------------
   # This is a wierd way to bracket the Qt releases but there has NEVER been 
   # an official version of Qt with a 5.x.99 version so we are going to use that

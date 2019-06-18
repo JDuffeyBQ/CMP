@@ -3,39 +3,25 @@
  * configuration of your project. If you need to make changes, edit the
  * original file NOT THIS FILE.
  * --------------------------------------------------------------------------*/
+
 #pragma once
 
-
-#include <QtCore/QString>
+#include @GVS_STRING_INCLUDE@
  
 @CMP_TOP_HEADER_INCLUDE_STATMENT@
 
 namespace @VERSION_GEN_NAMESPACE@
 {
-
-  class Version
+  namespace Version
   {
-    public:
-      ~Version() = default;
-      Version(const Version&) = delete; // Copy Constructor Not Implemented
-      Version(Version&&) = delete;      // Move Constructor Not Implemented
-      Version& operator=(const Version&) = delete; // Copy Assignment Not Implemented
-      Version& operator=(Version&&) = delete;      // Move Assignment Not Implemented
-
-
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString Complete();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString Major   ();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString Minor   ();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString Patch   ();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString Package ();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString Revision ();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString PackageComplete ();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString BuildDate();
-      static @VERSION_GEN_NAMESPACE_EXPORT@ QString GitHash();
-
-    protected:
-      Version() = default;
-
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ Complete();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ Major();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ Minor();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ Patch();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ Package();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ Revision();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ PackageComplete();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ BuildDate();
+    @VERSION_GEN_NAMESPACE_EXPORT@ @GVS_STRING_CLASS@ GitHash();
   };
 }
-
