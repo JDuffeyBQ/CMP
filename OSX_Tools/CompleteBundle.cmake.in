@@ -58,7 +58,7 @@ function(gp_item_default_embedded_path_override item default_embedded_path_var)
     message(STATUS "++ Plugin: ${item}")
     set(path "@executable_path/../Plugins")
     set(overridden 1)
-  endif(item MATCHES "\\.plugin$")
+  #endif(item MATCHES "\\.plugin$")
 
   # Next look for the Qt Image Format Plugins in case those are needed
   # if ( item MATCHES "imageformats/libq?")
@@ -66,11 +66,11 @@ function(gp_item_default_embedded_path_override item default_embedded_path_var)
   #   set(path "@executable_path/../Plugins/imageformats")
   #   set(overridden 1)
   # Lastly pick up any Plugins that simply have the ".dylib" extension
-  # elseif(item MATCHES "\\.dylib$")
-    #message(STATUS "%% Support Library: ${item}")
-    #set(path "@executable_path/../lib")
-    #set(overridden 1)
-  # endif()
+  elseif(item MATCHES "\\.dylib$")
+    message(STATUS "%% Support Library: ${item}")
+    set(path "@executable_path/../lib")
+    set(overridden 1)
+  endif()
 
   # Embed frameworks in the embedded "Frameworks" directory (sibling of MacOS):
   #
