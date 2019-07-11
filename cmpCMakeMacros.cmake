@@ -1054,6 +1054,16 @@ function(cmpGitRevisionString)
                   WORKING_DIRECTORY ${${GVS_PROJECT_NAME}_SOURCE_DIR} 
   )
   string(REPLACE "\n" "" GVS_GIT_HASH "${GVS_GIT_HASH}")
+  set_property(GLOBAL PROPERTY ${GVS_PROJECT_NAME}_GIT_HASH ${GVS_GIT_HASH})
+
+  execute_process(COMMAND ${GIT_EXECUTABLE} log -1 --pretty='%cd' --date=format:%Y-%m-%d-%H:%M:%S
+                  OUTPUT_VARIABLE GVS_GIT_COMMIT_DATE
+                  RESULT_VARIABLE did_run
+                  ERROR_VARIABLE git_error
+                  WORKING_DIRECTORY ${${GVS_PROJECT_NAME}_SOURCE_DIR} 
+  )
+  string(REPLACE "\n" "" GVS_GIT_COMMIT_DATE "${GVS_GIT_COMMIT_DATE}")
+  set_property(GLOBAL PROPERTY ${GVS_PROJECT_NAME}_GIT_COMMIT_DATE ${GVS_GIT_COMMIT_DATE})
 
   if(NOT "${GVS_GENERATED_HEADER_FILE_PATH}" STREQUAL "")
     #message(STATUS "Generating: ${${GVS_PROJECT_NAME}_BINARY_DIR}/${GVS_GENERATED_HEADER_FILE_PATH}")
