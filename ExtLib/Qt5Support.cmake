@@ -584,6 +584,28 @@ macro(CMP_AddQt5Support Qt5Components NeedQtWebEngine ProjectBinaryDir VarPrefix
                   PLUGIN_TYPE sqldrivers)
   endif()
 
+  list(FIND Qt5_COMPONENTS "Multimedia" NeedsMultiMedia)
+  if(NeedsMultiMedia GREATER -1)
+    if(WIN32)
+      AddQt5Plugins(PLUGIN_NAMES AudioCaptureService DSService WMFService
+        PLUGIN_SUFFIX Plugin
+        PLUGIN_TYPE mediaservice
+      )
+    endif()
+  endif()
+
+  if(CMP_ENABLE_PRINTSUPPORT_PLUGIN)
+    list(FIND Qt5_COMPONENTS "PrintSupport" NeedsPrintSupport)
+    if(NeedsPrintSupport GREATER -1)
+      if(WIN32)
+        AddQt5Plugins(PLUGIN_NAMES QWindowsPrinterSupport
+          PLUGIN_SUFFIX Plugin
+          PLUGIN_TYPE printsupport
+        )
+      endif()
+    endif()
+  endif()
+
   #-----------------------------------------------------------------------------------
   # Copy over the proper QWebEngine Components
   if("${NeedQtWebEngine}" STREQUAL "ON" OR "${NeedQtWebEngine}" STREQUAL "TRUE")
