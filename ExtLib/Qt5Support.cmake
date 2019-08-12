@@ -68,6 +68,7 @@ function(CopyQt5RunTimeLibraries)
       # subfolders for Visual Studio builds
       if(NOT TARGET ZZ_${P_PREFIX}${qtlib}${TYPE}-Debug-Copy)
         add_custom_target(ZZ_${P_PREFIX}${qtlib}${TYPE}-Debug-Copy ALL
+                            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug
                             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_DLL_PATH_tmp}/${P_PREFIX}${qtlib}${TYPE}.dll
                             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/
                             # COMMENT "Copying ${P_PREFIX}${qtlib}${TYPE}.dll to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/"
@@ -81,6 +82,7 @@ function(CopyQt5RunTimeLibraries)
       set(TYPE "")
       if(NOT TARGET ZZ_${P_PREFIX}${qtlib}${TYPE}-Release-Copy)
         add_custom_target(ZZ_${P_PREFIX}${qtlib}${TYPE}-Release-Copy ALL
+                            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release
                             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_DLL_PATH_tmp}/${P_PREFIX}${qtlib}.dll
                             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/
                             # COMMENT "Copying ${P_PREFIX}${qtlib}.dll to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/"
@@ -156,6 +158,7 @@ function(AddQt5SupportLibraryCopyInstallRules)
       if(NOT TARGET ZZ_${qtlib}-${INT_DIR}-Copy)
         set(SUFFIX ${P_DEBUG_SUFFIX})
         add_custom_target(ZZ_${qtlib}-${INT_DIR}-Copy ALL
+                            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${INT_DIR}
                             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_DLL_PATH}/${P_PREIX}${qtlib}${SUFFIX}.dll
                             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${INT_DIR}/
                             COMMENT "Copying ${P_PREIX}${qtlib}${SUFFIX}.dll to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${INT_DIR}/")
@@ -169,6 +172,7 @@ function(AddQt5SupportLibraryCopyInstallRules)
       if(NOT TARGET ZZ_${qtlib}-${INT_DIR}-Copy)
         set(SUFFIX "")
         add_custom_target(ZZ_${qtlib}-${INT_DIR}-Copy ALL
+                            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${INT_DIR}
                             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_DLL_PATH}/${P_PREIX}${qtlib}${SUFFIX}.dll
                             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${INT_DIR}/
                             COMMENT "Copying ${P_PREIX}${qtlib}${SUFFIX}.dll to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${INT_DIR}/")
