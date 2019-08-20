@@ -111,11 +111,14 @@ if(libharu_FOUND)
     endif()
   endif()
 
-
-  if(NOT APPLE)
-    AddlibharuCopyInstallRules(LIBVAR libharu_LIB
-                        LIBNAME libharu::hpdf
-                        TYPES ${BUILD_TYPES})
+  get_target_property(TARGET_TYPE libharu::hpdf TYPE)
+  if(TARGET_TYPE STREQUAL "SHARED_LIBRARY")
+    if(NOT APPLE)
+      AddlibharuCopyInstallRules(LIBVAR libharu_LIB
+        LIBNAME libharu::hpdf
+        TYPES ${BUILD_TYPES}
+      )
+    endif()
   endif()
 
   # The next CMake variable is needed for Linux to properly generate a shell script
