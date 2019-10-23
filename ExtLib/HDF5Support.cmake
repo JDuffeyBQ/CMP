@@ -158,21 +158,13 @@ if(HDF5_FOUND)
     endif()
   endif()
 
-  if(TARGET hdf5) # Up through 1.8.14
-    set(HDF5_C_TARGET_NAME hdf5)
-  elseif(TARGET hdf5-shared) # 1.8.15 & 1.8.16
-    set(HDF5_C_TARGET_NAME hdf5-shared)
-  elseif(TARGET hdf5::hdf5-shared) # 1.8.17 and above
+  if(TARGET hdf5::hdf5-shared) # 1.8.17 and above
     set(HDF5_C_TARGET_NAME hdf5::hdf5-shared)
   else()
     message(FATAL_ERROR "Neither target hdf5, hdf5-shared nor hdf5::hdf5-shared was found.")
   endif()
 
-  if(TARGET hdf5_cpp)# Up through 1.8.14
-    set(HDF5_CXX_TARGET_NAME hdf5_cpp)
-  elseif(TARGET hdf5_cpp-shared) # 1.8.15 & 1.8.16
-    set(HDF5_CXX_TARGET_NAME hdf5_cpp-shared)
-  elseif(TARGET hdf5::hdf5_cpp-shared) # 1.8.17 and above
+  if(TARGET hdf5::hdf5_cpp-shared) # 1.8.17 and above
     set(HDF5_CXX_TARGET_NAME hdf5::hdf5_cpp-shared)
   else()
     message(FATAL_ERROR "Neither target hdf5_cpp, hdf5_cpp-shared nor hdf5::hdf5_cpp-shared was found.")
@@ -213,5 +205,5 @@ if(HDF5_FOUND)
     set(HDF5_COMPONENTS ${HDF5_C_LIB_PATH} ${HDF5_CXX_LIB_PATH})
   endif()
 else(HDF5_FOUND)
-    message(FATAL_ERROR "Cannot build without HDF5.  Please set HDF5_INSTALL environment variable to point to your HDF5 installation.")
+    message(FATAL_ERROR "Cannot build without HDF5.  Please set HDF5_DIR environment variable to point to your HDF5 installation.")
 endif(HDF5_FOUND)
