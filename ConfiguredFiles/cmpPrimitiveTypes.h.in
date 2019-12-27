@@ -31,7 +31,7 @@ using float64 = double;
 
 #else
 /* All UNIX style platforms */
-#include <stdint.h>
+#include <cstdint>
 #endif
 
 #else
