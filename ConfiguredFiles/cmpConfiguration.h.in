@@ -368,18 +368,23 @@
    machine doing the building. In order to support Universal Binaries on
    Mac OS X, we prefer those defines to decide the endianness.
    On other platforms we use the result of the TRY_RUN. */
-#ifndef CMP_WORDS_BIGENDIAN
-#if !defined(__APPLE__)
-  #cmakedefine CMP_WORDS_BIGENDIAN
-#elif defined(__BIG_ENDIAN__)
-  #define CMP_WORDS_BIGENDIAN
-#endif
-#endif
+// #ifndef CMP_WORDS_BIGENDIAN
+// #if !defined(__APPLE__)
+//   #cmakedefine CMP_WORDS_BIGENDIAN
+// #elif defined(__BIG_ENDIAN__)
+//   #cmakedefine CMP_WORDS_BIGENDIAN
+// #endif
+// #endif
 
-#ifdef CMP_WORDS_BIGENDIAN
-#define BIGENDIAN 1
-#else
-#define BIGENDIAN 0
+// #ifdef CMP_WORDS_BIGENDIAN
+// #define BIGENDIAN 1
+// #else
+// #define BIGENDIAN 0
+// #endif
+
+#define BIGENDIAN @BIGENDIAN@
+#if BIGENDIAN
+#define CMP_WORDS_BIGENDIAN
 #endif
 
 
