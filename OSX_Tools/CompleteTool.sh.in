@@ -152,19 +152,16 @@ function UpdateLibraryDependencies()
   OUTDIR=$RANDOM
 
   libFile="${1}"
-  libOutFile="${TmpDir}/@osx_app_name@-library_$OUTDIR.out"
+  libOutFile="${TmpDir}/@osx_app_name@-library_$OUTDIR.txt"
   otool -L "${1}" > "${libOutFile}"
-  i=0
-  exec 10<"${libOutFile}"
-  while read -u 10 line
-    do
-    if [[ ${i} -gt 1 ]]; then
-        CorrectLibraryDependency "${line}" "${1}"
-        let i=i+1
-    fi
-    let i=i+1
-  done
-  exec 10<&-
+  printStatus "    |- OUTFILE: ${libOutFile}"
+  otool -L "${1}" > "${libOutFile}"
+
+  while IFS= read -r line
+  do     
+    printStatus "    |- Processing LINE: $line"
+    CorrectLibraryDependency "${line}" "${1}"
+  done <"$libOutFile"
 
   rm -rf "${libOutFile}"
 }
