@@ -3,17 +3,14 @@
 # implement the C++11/14/17 standard all now make guarantees about sizes of types
 # that are used.
 
-INCLUDE (${CMAKE_ROOT}/Modules/CheckTypeSize.cmake)
-
+include(CheckTypeSize)
 
 # Do a very simple check for the system processor. We really only support compiling
 # on a Little Endian system
 message(STATUS "CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
-if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "AMD64")
-  set(BIGENDIAN 0)
-else()
-  set(BIGENDIAN 1)
-endif()
+include(TestBigEndian)
+TEST_BIG_ENDIAN(BIGENDIAN)
+message(STATUS "BIGENDIAN: ${BIGENDIAN}")
 
 # We also assume a 64 bit system for compiling.
 
@@ -95,5 +92,3 @@ CORE_CHECK_TYPE_SIZE(off64_t        CMP_SIZEOF_OFF64_T)
 if(NOT CMP_SIZEOF_OFF64_T)
     set(CMP_SIZEOF_OFF64_T 0)
 endif()
-
-
