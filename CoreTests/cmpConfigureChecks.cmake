@@ -2,18 +2,12 @@
 # In this file we are doing all of our 'configure' checks. Modern C++ systems that
 # implement the C++11/14/17 standard all now make guarantees about sizes of types
 # that are used.
-
 include(CheckTypeSize)
 
-# Do a very simple check for the system processor. We really only support compiling
-# on a Little Endian system
-message(STATUS "CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 include(TestBigEndian)
 TEST_BIG_ENDIAN(BIGENDIAN)
-message(STATUS "BIGENDIAN: ${BIGENDIAN}")
 
-# We also assume a 64 bit system for compiling.
-
+# instead of testing for each of these, we require C++14 which has all of these items
 set(CMP_HAVE_STDINT_H 1)
 
 set(CMP_SIZEOF_CHAR 1)
@@ -37,7 +31,7 @@ set(CMP_SIZEOF_UINT64_T 8)
 set(CMP_SIZEOF_UINT8_T 1)
 
 
-# This assumes a 64 bit system
+# This assumes a 64 bit system; We do NOT support compiling on a 32 bit system
 set(CMP_SIZEOF_SIZE_T 8)
 set(CMP_SIZEOF_SSIZE_T 8)
 
