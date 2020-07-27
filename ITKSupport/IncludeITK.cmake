@@ -185,10 +185,10 @@ endif()
 
 
 # Include the ITK file
-include(${ITK_USE_FILE})
+#include(${ITK_USE_FILE})
 
 # Call this macro to make sure ITK actually behaves correctly
-itk_module_use(${DREAM3D_ITK_MODULES})
+#itk_module_use(${DREAM3D_ITK_MODULES})
 
 # Start setting up to copy/install the ITK DLL files into the DREAM3D runtime
 # directory or package directory. This will probably fail with Xcode
