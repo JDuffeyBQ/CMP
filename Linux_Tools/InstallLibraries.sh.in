@@ -29,17 +29,6 @@ function copyLibraries()
 	done
 }
 
-function copyQtWebEngineFile()
-{
-  name="$1"
-  instDir="$2"
-  srcDir="$3"
-  if [ ! -e "${InstallPrefix}/${instDir}/${name}" ]; then
-    #echo "@linux_app_name@:  Copy ${l} into Deployment Lib Directory"  
-    cp --no-dereference @QM_QT_INSTALL_PREFIX@/${srcDir}/${name} ${InstallPrefix}/${instDir}/.
-  fi
-}
-
 #------------------------------------------------------------------------------
 # Copy the HDF5 Libraries into the Deployment location
 HDF5_COMPONENTS="@HDF5_COMPONENTS@"
@@ -83,32 +72,6 @@ for x in $arr
 do
     copyLibraries "@QM_QT_INSTALL_PREFIX@/lib"  "Qt5$x"
 done
-
-
-# ----------------------------------------------------
-# Copy the QtWebEngine parts of the QtWebEngineCore 
-if [ "@SIMPL_USE_QtWebEngine@" = "ON" ];
-  then
-    if [ ! -e "${InstallPrefix}/bin/resources" ];
-      then
-        mkdir "${InstallPrefix}/bin/resources"
-    fi
-    copyQtWebEngineFile "QtWebEngineProcess" "bin" "libexec"
-    copyQtWebEngineFile "icudtl.dat" "bin/resources" "resources"
-    copyQtWebEngineFile "qtwebengine_resources.pak" "bin/resources" "resources"
-    copyQtWebEngineFile "qtwebengine_resources_100p.pak" "bin/resources" "resources"
-    copyQtWebEngineFile "qtwebengine_resources_200p.pak" "bin/resources" "resources"
-    if [ ! -e "${InstallPrefix}/bin/translations" ];
-      then
-        mkdir "${InstallPrefix}/bin/translations"
-    fi
-
-    if [ ! -e "${InstallPrefix}/bin/translations/qtwebengine_locales" ];
-      then
-        mkdir "${InstallPrefix}/bin/translations/qtwebengine_locales"
-    fi
-    cp -n -u @QM_QT_INSTALL_PREFIX@/translations/qtwebengine_locales/* ${InstallPrefix}/bin/translations/qtwebengine_locales/
-fi
 
 
 #------------------------------------------------------------------------------

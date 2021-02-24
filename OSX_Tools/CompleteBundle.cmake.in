@@ -190,17 +190,3 @@ file(APPEND "${CMAKE_INSTALL_PREFIX}/${MAC_OS_APP_NAME}/Contents/Resources/qt.co
 FILE(APPEND "${CMAKE_INSTALL_PREFIX}/${MAC_OS_APP_NAME}/Contents/Resources/qt.conf" "Prefix = .\n")
 FILE(APPEND "${CMAKE_INSTALL_PREFIX}/${MAC_OS_APP_NAME}/Contents/Resources/qt.conf" "LibraryExecutables = bin\n")
 
-# ----------------------------------------------------
-# Copy the QtWebEngine parts of the QtWebEngineCore Framework
-if ("@SIMPL_USE_QtWebEngine@" STREQUAL "ON")
-
-  FILE(COPY "${qtLibDir}/QtWebEngineCore.framework/Versions/5/Helpers"
-        DESTINATION "${CMAKE_INSTALL_PREFIX}/${MAC_OS_APP_NAME}/Contents/Frameworks/QtWebEngineCore.framework/Versions/5/")
-  FILE(COPY "${qtLibDir}/QtWebEngineCore.framework/Helpers"
-        DESTINATION "${CMAKE_INSTALL_PREFIX}/${MAC_OS_APP_NAME}/Contents/Frameworks/QtWebEngineCore.framework/")
-  if(NOT EXISTS "${CMAKE_INSTALL_PREFIX}/Frameworks/QtWebEngineCore.framework/Helpers/QtWebEngineProcess.app/Contents/Frameworks")
-    execute_process( COMMAND ln -s "../../../../../../../Frameworks" "Frameworks"
-                     WORKING_DIRECTORY "${CMAKE_INSTALL_PREFIX}/${MAC_OS_APP_NAME}/Contents/Frameworks/QtWebEngineCore.framework/Helpers/QtWebEngineProcess.app/Contents" )
-  endif()
-endif()
-

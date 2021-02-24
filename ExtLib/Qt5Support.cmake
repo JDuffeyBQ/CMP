@@ -325,84 +325,15 @@ function(AddQt5Plugins)
 endfunction()
 
 # ------------------------------------------------------------------------------
-#  Function AddQWebEngineSupportFiles
-# ------------------------------------------------------------------------------
-function(AddQWebEngineSupportFiles)
-  set(options)
-  set(oneValueArgs QT_INSTALL_PREFIX QT_VERSION)
-  set(multiValueArgs )
-  if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-    set(CMAKE_BUILD_TYPE "Release")
-  endif()
-  cmake_parse_arguments(QM "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
-  set(build_types "Debug;Release")
-
-  set(QTCONF_DIR "bin")
-  if(WIN32)
-    set(QTCONF_DIR ".")
-  endif()
-
-  if (QM_QT_VERSION VERSION_GREATER 5.8.0 OR QM_QT_VERSION VERSION_EQUAL 5.8.0 )
-    if(WIN32 OR LINUX)
-      install(FILES ${QM_QT_INSTALL_PREFIX}/resources/icudtl.dat
-                    ${QM_QT_INSTALL_PREFIX}/resources/qtwebengine_resources.pak 
-                    ${QM_QT_INSTALL_PREFIX}/resources/qtwebengine_resources_100p.pak 
-                    ${QM_QT_INSTALL_PREFIX}/resources/qtwebengine_resources_200p.pak
-                    ${QM_QT_INSTALL_PREFIX}/resources/qtwebengine_devtools_resources.pak
-              DESTINATION ${QTCONF_DIR}/resources
-              COMPONENT Applications)
-      install(FILES ${QM_QT_INSTALL_PREFIX}/bin/QtWebEngineProcess.exe
-                    ${QM_QT_INSTALL_PREFIX}/bin/libEGL.dll
-                    ${QM_QT_INSTALL_PREFIX}/bin/libGLESv2.dll
-                DESTINATION ${QTCONF_DIR}
-                COMPONENT Applications)
-      install(DIRECTORY ${QM_QT_INSTALL_PREFIX}/translations/qtwebengine_locales
-                DESTINATION ${QTCONF_DIR}/translations
-                COMPONENT Applications)
-
-    endif()
-  elseif (QM_QT_VERSION VERSION_GREATER 5.7.0 OR QM_QT_VERSION VERSION_EQUAL 5.7.0 )
-    message(FATAL_ERROR "Qt 5.7 is not supported for development.")
-  elseif (QM_QT_VERSION VERSION_GREATER 5.6.0 OR QM_QT_VERSION VERSION_EQUAL 5.6.0)
-    if(WIN32 OR LINUX)
-      install(FILES ${QM_QT_INSTALL_PREFIX}/resources/icudtl.dat
-                    ${QM_QT_INSTALL_PREFIX}/resources/qtwebengine_resources.pak 
-                    ${QM_QT_INSTALL_PREFIX}/resources/qtwebengine_resources_100p.pak 
-                    ${QM_QT_INSTALL_PREFIX}/resources/qtwebengine_resources_200p.pak
-              DESTINATION ${QTCONF_DIR}/resources
-              COMPONENT Applications)
-      install(FILES ${QM_QT_INSTALL_PREFIX}/bin/QtWebEngineProcess.exe
-                    ${QM_QT_INSTALL_PREFIX}/bin/libEGL.dll
-                    ${QM_QT_INSTALL_PREFIX}/bin/libGLESv2.dll
-                DESTINATION ${QTCONF_DIR}
-                COMPONENT Applications)
-      install(DIRECTORY ${QM_QT_INSTALL_PREFIX}/translations/qtwebengine_locales
-                DESTINATION ${QTCONF_DIR}/translations
-                COMPONENT Applications)
-    endif()
-  elseif (QM_QT_VERSION VERSION_GREATER 5.5.0 OR QM_QT_VERSION VERSION_EQUAL 5.5.0)
-    message(FATAL_ERROR "Qt 5.5.x is not supported for development.")
-  elseif (QM_QT_VERSION VERSION_GREATER 5.4.0 OR QM_QT_VERSION VERSION_EQUAL 5.4.0)
-    message(FATAL_ERROR "Qt 5.4.x is not supported for development.")
-  endif()
-  
-  if(APPLE)
-
-  endif()
-
-endfunction()
-
-# ------------------------------------------------------------------------------
 # Macro CMP_AddQt5Support
 # Qt 5 Section: This section is the base cmake code that will find Qt5 on the computer and
 # setup all the necessary Qt5 modules that need to be used.
 #  @param Qt5Components These are the Qt Components that the project needs. The
 #    possible values are: Core Widgets Network Gui Concurrent Script Svg Xml OpenGL PrintSupport
 #    Note that one OR more components can be selected.
-#  @param NeedQtWebEngine Does the project need QWebEngine. Possible values are TRUE or FALSE
 #  @param ProjectBinaryDir The Directory where to write any output files
 # ------------------------------------------------------------------------------
-macro(CMP_AddQt5Support Qt5Components NeedQtWebEngine ProjectBinaryDir VarPrefix)
+macro(CMP_AddQt5Support Qt5Components ProjectBinaryDir VarPrefix)
 
   # ------------------------------------------------------------------------------
   # Find includes in corresponding build directories
@@ -410,20 +341,6 @@ macro(CMP_AddQt5Support Qt5Components NeedQtWebEngine ProjectBinaryDir VarPrefix
 
   # Find the QtWidgets library
   set(Qt5_COMPONENTS "${Qt5Components}")
-  set(Qt5_WebEngine_Components "")
-  if("${NeedQtWebEngine}" STREQUAL "ON" OR "${NeedQtWebEngine}" STREQUAL "TRUE")
-    set(Qt5_WebEngine_Components
-      Positioning
-      WebEngine
-      WebEngineWidgets
-      WebEngineCore
-      WebChannel
-      Quick
-      QuickWidgets
-      Qml
-    )
-    set(Qt5_COMPONENTS ${Qt5_COMPONENTS} ${Qt5_WebEngine_Components})
-  endif()
 
   # This line gets the list of Qt5 components into the calling context.
   set(${VarPrefix}_Qt5_Components ${Qt5_COMPONENTS} CACHE STRING "" FORCE)
@@ -608,12 +525,6 @@ macro(CMP_AddQt5Support Qt5Components NeedQtWebEngine ProjectBinaryDir VarPrefix
         )
       endif()
     endif()
-  endif()
-
-  #-----------------------------------------------------------------------------------
-  # Copy over the proper QWebEngine Components
-  if("${NeedQtWebEngine}" STREQUAL "ON" OR "${NeedQtWebEngine}" STREQUAL "TRUE")
-    AddQWebEngineSupportFiles(QT_INSTALL_PREFIX ${QM_QT_INSTALL_PREFIX} QT_VERSION ${QM_QT_VERSION})
   endif()
 
   if(0)
