@@ -131,7 +131,17 @@ endif()
 
 #message(STATUS "HDF5_DIR: ${HDF5_DIR}")
 
-find_package(HDF5 NAMES hdf5)
+set(hdf5_path_suffixes "")
+if(WIN32)
+  set(hdf5_path_suffixes hdf5)
+endif()
+
+find_package(HDF5 NAMES hdf5 REQUIRED PATH_SUFFIXES ${hdf5_path_suffixes})
+
+if(HDF5_ENABLE_THREADSAFE)
+  find_package(Threads REQUIRED)
+endif()
+
 if(NOT HDF5_FOUND)
   message(FATAL_ERROR "HDF5 was not found on your system. Please follow any instructions given to fix the problem")
 endif()

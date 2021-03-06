@@ -88,7 +88,23 @@ endif()
 
 #message(STATUS "libharu_DIR: ${libharu_DIR}")
 
-find_package(libharu)
+find_package(libharu CONFIG)
+
+if(NOT libharu_FOUND)
+  message(STATUS "Fallback to find_library/find_path for libharu")
+  find_library(libharu_LIB NAMES hpdf libhpdf REQUIRED)
+  find_path(libharu_INCLUDE_DIR NAMES hpdf.h REQUIRED)
+
+  add_library(libharu::hpdf STATIC IMPORTED)
+
+  set_target_properties(libharu::hpdf PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES ${libharu_INCLUDE_DIR}
+    IMPORTED_LOCATION ${libharu_LIB}
+  )
+
+  set(libharu_FOUND True)
+endif()
+
 if(NOT libharu_FOUND)
   message(FATAL_ERROR "libharu was not found on your system. Please follow any instructions given to fix the problem")
 endif()
