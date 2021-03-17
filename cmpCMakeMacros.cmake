@@ -551,12 +551,21 @@ function(PluginProperties)
     if(NOT APPLE)
         set(BUILD_TYPES "Debug;Release")
         foreach(btype ${BUILD_TYPES})
-            install(TARGETS ${Z_TARGET_NAME}
-                    DESTINATION ${Z_INSTALL_DEST}
-                    CONFIGURATIONS ${btype}
-                    COMPONENT Applications
-                    ARCHIVE DESTINATION lib
-                    )
+            if(NOT DREAM3D_ANACONDA)
+              install(TARGETS ${Z_TARGET_NAME}
+                      DESTINATION ${Z_INSTALL_DEST}
+                      CONFIGURATIONS ${btype}
+                      COMPONENT Applications
+                      ARCHIVE DESTINATION lib
+              )
+            else()
+              install(TARGETS ${Z_TARGET_NAME}
+                      RUNTIME DESTINATION ${Z_INSTALL_DEST}
+                      LIBRARY DESTINATION ${Z_INSTALL_DEST}
+                      CONFIGURATIONS ${btype}
+                      COMPONENT Applications
+              )
+            endif()
         endforeach()
     endif()
 

@@ -184,15 +184,21 @@ if(HDF5_FOUND)
     set(CMP_HDF5_ENABLE_INSTALL ON)
   endif()
 
+  if(NOT DEFINED CMP_HDF5_ENABLE_COPY)
+    set(CMP_HDF5_ENABLE_COPY ON)
+  endif()
+
   if(NOT APPLE)
-    AddHDF5CopyRules(LIBVAR HDF5_LIB
-      LIBNAME ${HDF5_C_TARGET_NAME}
-      TYPES ${BUILD_TYPES}
-    )
-    AddHDF5CopyRules(LIBVAR HDF5_CPP_LIB
-      LIBNAME ${HDF5_CXX_TARGET_NAME}
-      TYPES ${BUILD_TYPES}
-    )
+    if(CMP_HDF5_ENABLE_COPY)
+      AddHDF5CopyRules(LIBVAR HDF5_LIB
+        LIBNAME ${HDF5_C_TARGET_NAME}
+        TYPES ${BUILD_TYPES}
+      )
+      AddHDF5CopyRules(LIBVAR HDF5_CPP_LIB
+        LIBNAME ${HDF5_CXX_TARGET_NAME}
+        TYPES ${BUILD_TYPES}
+      )
+    endif()
 
     if(CMP_HDF5_ENABLE_INSTALL)
       AddHDF5InstallRules(LIBVAR HDF5_LIB

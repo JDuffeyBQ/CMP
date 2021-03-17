@@ -367,11 +367,17 @@ macro(CMP_AddQt5Support Qt5Components ProjectBinaryDir VarPrefix)
     set_property(GLOBAL PROPERTY Qt5_STATUS_PRINTED TRUE)
   endif()
 
-  # This is really just needed for Windows
-  CopyQt5RunTimeLibraries(LIBRARIES ${Qt5_COMPONENTS} PREFIX Qt5)
-
   if(NOT DEFINED CMP_QT5_ENABLE_INSTALL)
     set(CMP_QT5_ENABLE_INSTALL ON)
+  endif()
+
+  if(NOT DEFINED CMP_QT5_ENABLE_COPY)
+    set(CMP_QT5_ENABLE_COPY ON)
+  endif()
+
+  # This is really just needed for Windows
+  if(CMP_QT5_ENABLE_COPY)
+    CopyQt5RunTimeLibraries(LIBRARIES ${Qt5_COMPONENTS} PREFIX Qt5)
   endif()
 
   if(CMP_QT5_ENABLE_INSTALL)
@@ -423,7 +429,7 @@ macro(CMP_AddQt5Support Qt5Components ProjectBinaryDir VarPrefix)
 
   get_property(QT_PLUGINS_FILE GLOBAL PROPERTY QtPluginsTxtFile)
   if("${QT_PLUGINS_FILE}" STREQUAL "")
-#    message(STATUS "Setting GLOBAL PROPERTY QtPluginsTxtFile")
+    # message(STATUS "Setting GLOBAL PROPERTY QtPluginsTxtFile")
     set_property(GLOBAL PROPERTY QtPluginsTxtFile "${ProjectBinaryDir}/Qt_Plugins.txt")
     get_property(QT_PLUGINS_FILE GLOBAL PROPERTY QtPluginsTxtFile)
   endif()
@@ -431,7 +437,7 @@ macro(CMP_AddQt5Support Qt5Components ProjectBinaryDir VarPrefix)
   #set(QT_PLUGINS_FILE_TEMPLATE "${ProjectBinaryDir}/Qt_Plugins.cmake.in")
   get_property(QT_PLUGINS_FILE_TEMPLATE GLOBAL PROPERTY QtPluginsCMakeFile)
   if("${QT_PLUGINS_FILE_TEMPLATE}" STREQUAL "")
-#    message(STATUS "Setting GLOBAL PROPERTY QtPluginsCMakeFile")
+    # message(STATUS "Setting GLOBAL PROPERTY QtPluginsCMakeFile")
     set_property(GLOBAL PROPERTY QtPluginsCMakeFile "${ProjectBinaryDir}/Qt_Plugins.cmake.in")
     get_property(QT_PLUGINS_FILE_TEMPLATE GLOBAL PROPERTY QtPluginsCMakeFile)
   endif()
@@ -441,97 +447,98 @@ macro(CMP_AddQt5Support Qt5Components ProjectBinaryDir VarPrefix)
   file(WRITE ${QT_PLUGINS_FILE_TEMPLATE} "")
   file(WRITE ${QT_PLUGINS_FILE} "")
 
-
-  list(FIND Qt5_COMPONENTS "Gui" NeedsGui)
-  if(NeedsGui GREATER -1)
-    AddQt5Plugins(PLUGIN_NAMES QDDS QGif QICNS QICO QJp2 QJpeg QMng QTga QTiff QWbmp QWebp
-                PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                PLUGIN_SUFFIX Plugin
-                PLUGIN_TYPE imageformats)
-    if(WIN32)
-      AddQt5Plugins(PLUGIN_NAMES QWindowsIntegration
+  if(CMP_QT5_ENABLE_INSTALL)
+    list(FIND Qt5_COMPONENTS "Gui" NeedsGui)
+    if(NeedsGui GREATER -1)
+      AddQt5Plugins(PLUGIN_NAMES QDDS QGif QICNS QICO QJp2 QJpeg QMng QTga QTiff QWbmp QWebp
                   PLUGIN_FILE "${QT_PLUGINS_FILE}"
                   PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
                   PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE platforms)
-      AddQt5Plugins(PLUGIN_NAMES QWindowsDirect2DIntegration
-                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                  PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE platforms)
-      AddQt5Plugins(PLUGIN_NAMES QMinimalIntegration
-                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                  PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE platforms)
-       AddQt5Plugins(PLUGIN_NAMES QOffscreenIntegration
-                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                  PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE platforms)
-
-      AddQt5Plugins(PLUGIN_NAMES QWindowsVistaStyle
-                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                  PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE styles)
-    endif()
-
-    if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-      AddQt5Plugins(PLUGIN_NAMES QXcbIntegration
-                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                  PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE platforms)
-    endif()
-  endif()
-
-  list(FIND Qt5_COMPONENTS "Network" NeedsNetwork)
-  if(NeedsNetwork GREATER -1)
-    AddQt5Plugins(PLUGIN_NAMES QGenericEnginePlugin
-                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                  # PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE bearer)
-  endif()
-
-  list(FIND Qt5_COMPONENTS "Sql" NeedsSql)
-  if(NeedsSql GREATER -1)
-    AddQt5Plugins(PLUGIN_NAMES QODBCDriverPlugin
-                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                  # PLUGIN_SUFFIX Plugin
-                  PLUGIN_TYPE sqldrivers)
-  endif()
-
-  list(FIND Qt5_COMPONENTS "Multimedia" NeedsMultiMedia)
-  if(NeedsMultiMedia GREATER -1)
-    if(WIN32)
-      AddQt5Plugins(PLUGIN_NAMES AudioCaptureService DSService WMFService
-        PLUGIN_SUFFIX Plugin
-        PLUGIN_TYPE mediaservice
-      )
-    endif()
-  endif()
-
-  if(CMP_ENABLE_PRINTSUPPORT_PLUGIN)
-    list(FIND Qt5_COMPONENTS "PrintSupport" NeedsPrintSupport)
-    if(NeedsPrintSupport GREATER -1)
+                  PLUGIN_TYPE imageformats)
       if(WIN32)
-        AddQt5Plugins(PLUGIN_NAMES QWindowsPrinterSupport
+        AddQt5Plugins(PLUGIN_NAMES QWindowsIntegration
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE platforms)
+        AddQt5Plugins(PLUGIN_NAMES QWindowsDirect2DIntegration
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE platforms)
+        AddQt5Plugins(PLUGIN_NAMES QMinimalIntegration
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE platforms)
+        AddQt5Plugins(PLUGIN_NAMES QOffscreenIntegration
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE platforms)
+
+        AddQt5Plugins(PLUGIN_NAMES QWindowsVistaStyle
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE styles)
+      endif()
+
+      if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+        AddQt5Plugins(PLUGIN_NAMES QXcbIntegration
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE platforms)
+      endif()
+    endif()
+
+    list(FIND Qt5_COMPONENTS "Network" NeedsNetwork)
+    if(NeedsNetwork GREATER -1)
+      AddQt5Plugins(PLUGIN_NAMES QGenericEnginePlugin
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    # PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE bearer)
+    endif()
+
+    list(FIND Qt5_COMPONENTS "Sql" NeedsSql)
+    if(NeedsSql GREATER -1)
+      AddQt5Plugins(PLUGIN_NAMES QODBCDriverPlugin
+                    PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                    PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                    # PLUGIN_SUFFIX Plugin
+                    PLUGIN_TYPE sqldrivers)
+    endif()
+
+    list(FIND Qt5_COMPONENTS "Multimedia" NeedsMultiMedia)
+    if(NeedsMultiMedia GREATER -1)
+      if(WIN32)
+        AddQt5Plugins(PLUGIN_NAMES AudioCaptureService DSService WMFService
           PLUGIN_SUFFIX Plugin
-          PLUGIN_TYPE printsupport
+          PLUGIN_TYPE mediaservice
         )
       endif()
     endif()
-  endif()
 
-  if(0)
-    AddQt5Plugins(PLUGIN_NAMES AccessibleFactory
-                PLUGIN_FILE "${QT_PLUGINS_FILE}"
-                PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
-                PLUGIN_TYPE accessible)
+    if(CMP_ENABLE_PRINTSUPPORT_PLUGIN)
+      list(FIND Qt5_COMPONENTS "PrintSupport" NeedsPrintSupport)
+      if(NeedsPrintSupport GREATER -1)
+        if(WIN32)
+          AddQt5Plugins(PLUGIN_NAMES QWindowsPrinterSupport
+            PLUGIN_SUFFIX Plugin
+            PLUGIN_TYPE printsupport
+          )
+        endif()
+      endif()
+    endif()
+
+    if(0)
+      AddQt5Plugins(PLUGIN_NAMES AccessibleFactory
+                  PLUGIN_FILE "${QT_PLUGINS_FILE}"
+                  PLUGIN_FILE_TEMPLATE "${QT_PLUGINS_FILE_TEMPLATE}"
+                  PLUGIN_TYPE accessible)
+    endif()
   endif()
 
   # Append the locations of the Qt libraries to our Library Search Paths

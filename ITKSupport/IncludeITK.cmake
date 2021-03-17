@@ -225,12 +225,18 @@ if(WIN32 OR APPLE)
   endforeach()
 endif()
 
+if(NOT DEFINED CMP_ITK_ENABLE_COPY_INSTALL)
+  set(CMP_ITK_ENABLE_COPY_INSTALL ON)
+endif()
+
 # On Apple Systems since we can use the embedded install_name we do not need
 # any of this copy stuff and the install will take care of itself. This loop
 # will iterate over all the ITK Modules, figure out if each is shared
 # (DLL), then create a copy rule and an install rule.
 if(WIN32)
-  AddItkCopyInstallRules(LIBS ${DREAM3D_ITK_MODULES} TYPES ${BUILD_TYPES} FOLDERS)
+  if(CMP_ITK_ENABLE_COPY_INSTALL)
+    AddItkCopyInstallRules(LIBS ${DREAM3D_ITK_MODULES} TYPES ${BUILD_TYPES} FOLDERS)
+  endif()
 endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")

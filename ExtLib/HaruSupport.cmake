@@ -127,11 +127,17 @@ if(libharu_FOUND)
     endif()
   endif()
 
+  if(NOT DEFINED CMP_HARU_ENABLE_COPY_INSTALL)
+    set(CMP_HARU_ENABLE_COPY_INSTALL ON)
+  endif()
 
   if(NOT APPLE)
-    AddlibharuCopyInstallRules(LIBVAR libharu_LIB
-                        LIBNAME libharu::hpdf
-                        TYPES ${BUILD_TYPES})
+    if(CMP_HARU_ENABLE_COPY_INSTALL)
+      AddlibharuCopyInstallRules(LIBVAR libharu_LIB
+        LIBNAME libharu::hpdf
+        TYPES ${BUILD_TYPES}
+      )
+    endif()
   endif()
 
   # The next CMake variable is needed for Linux to properly generate a shell script
